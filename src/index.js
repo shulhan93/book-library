@@ -1,3 +1,22 @@
-import './sass/main.scss';
+import MainView from './view/main/main';
 
-console.log('Hello Andrei');
+class App {
+  routes = [{ path: '', view: MainView }];
+
+  constructor() {
+    window.addEventListener('hashchange', this.route.bind(this));
+    this.route();
+  }
+
+  route() {
+    if (this.currentView) {
+      this.currentView.destroy();
+    }
+
+    const View = this.routes.find((r) => r.path === location.hash).view;
+    this.currentView = new View();
+    this.currentView.render();
+  }
+}
+
+new App();
